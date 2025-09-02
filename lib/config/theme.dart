@@ -10,12 +10,16 @@ ThemeData themeData() {
       elevation: 0,
       centerTitle: true,
     ),
-    iconTheme: const IconThemeData(
-      color: Colors.white, // <-- Makes all icons white by default
-    ),
+    iconTheme: const IconThemeData(color: Colors.white),
     colorScheme: ColorScheme.fromSeed(
       seedColor: const Color.fromRGBO(122, 90, 248, 1),
-      brightness: Brightness.dark, // <-- optional: dark mode feel
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+      ),
+      modalBackgroundColor: Colors.white,
     ),
     textTheme: const TextTheme(
       bodyLarge: TextStyle(color: Colors.white),

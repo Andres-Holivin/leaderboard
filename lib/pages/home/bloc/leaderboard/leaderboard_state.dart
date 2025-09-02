@@ -1,23 +1,38 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart' hide Category;
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:leaderboard/data/category.dart';
-import 'package:leaderboard/data/periode.dart';
-import 'package:leaderboard/data/podium.dart';
-import 'package:leaderboard/data/region.dart';
-import 'package:leaderboard/data/sport_type.dart';
+import 'package:leaderboard/model/category_model.dart';
+import 'package:leaderboard/model/participated_model.dart';
+import 'package:leaderboard/model/periode_model.dart';
+import 'package:leaderboard/model/region_model.dart';
+import 'package:leaderboard/model/sport_type_model.dart';
+import 'package:leaderboard/model/leaderboard_model.dart';
 part 'leaderboard_state.freezed.dart';
+
+enum FetchStatus { initial, loading, success, failure }
+
+@freezed
+abstract class FilterState with _$FilterState {
+  const factory FilterState({
+    @Default(1) int page,
+    SportTypeModel? sportType,
+    CategoryModel? category,
+    RegionModel? region,
+    PeriodeModel? periode,
+    ParticipatedModel? participated,
+  }) = _FilterState;
+}
 
 @freezed
 abstract class LeaderboardState with _$LeaderboardState {
-  const factory LeaderboardState.initial() = _Initial;
-  const factory LeaderboardState.loading() = _Loading;
-  const factory LeaderboardState.success({
-    required List<SportType> sportTypes,
-    required List<Category> categories,
-    required List<Region> regions,
-    required List<Podium> podiums,
-    required List<Periode> periods,
-  }) = _Success;
-  const factory LeaderboardState.failure(String error) = _Failure;
+  const factory LeaderboardState({
+    @Default([]) List<SportTypeModel> sportTypes,
+    @Default([]) List<CategoryModel> categories,
+    @Default([]) List<RegionModel> regions,
+    @Default([]) List<LeaderboardModel> podium,
+    @Default([]) List<PeriodeModel> periods,
+    @Default([]) List<ParticipatedModel> participated,
+    @Default(FilterState()) FilterState filter,
+    @Default(FetchStatus.initial) FetchStatus status,
+    @Default(FetchStatus.initial) FetchStatus loadMoreStatus,
+    @Default(true) bool showPodium,
+  }) = _LeaderboardState;
 }

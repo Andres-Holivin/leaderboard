@@ -1,12 +1,17 @@
-import 'package:equatable/equatable.dart';
-import 'package:leaderboard/data/category.dart';
-import 'package:leaderboard/data/region.dart';
-import 'package:leaderboard/data/sport_type.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:leaderboard/pages/home/bloc/leaderboard/leaderboard_state.dart';
+part 'leaderboard_event.freezed.dart';
 
-sealed class LeaderboardEvent extends Equatable {
-  const LeaderboardEvent();
-  @override
-  List<Object?> get props => [];
+@freezed
+abstract class LeaderboardEvent with _$LeaderboardEvent {
+  const factory LeaderboardEvent.initLeaderboard() = InitLeaderboard;
+  const factory LeaderboardEvent.fetchLeaderboard() = FetchLeaderboard;
+
+  const factory LeaderboardEvent.hidePodium({required bool hide}) = HidePodium;
+
+  const factory LeaderboardEvent.updateFilter({required FilterState filter}) =
+      UpdateFilter;
+
+  const factory LeaderboardEvent.refreshLeaderboard() = RefreshLeaderboard;
 }
-
-class InitLeaderboard extends LeaderboardEvent {}

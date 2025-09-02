@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:leaderboard/model/leaderboard_model.dart';
 
 class PodiumComponent extends StatelessWidget {
-  const PodiumComponent({super.key});
+  const PodiumComponent({super.key, required this.podium});
+  final List<LeaderboardModel> podium;
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +14,30 @@ class PodiumComponent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         spacing: 16.w,
         children: [
-          _buildPodiumPlace(context, rank: 2, name: 'Teal', points: '201 Pts'),
-          _buildPodiumPlace(
-            context,
-            rank: 1,
-            name: 'Purple',
-            points: '201 Pts',
-          ),
-          _buildPodiumPlace(context, rank: 3, name: 'Pinky', points: '201 Pts'),
+          podium.length > 1
+              ? _buildPodiumPlace(
+                  context,
+                  rank: 2,
+                  name: podium[1].name,
+                  points: '${podium[1].point} Pts',
+                )
+              : Container(),
+          podium.isNotEmpty
+              ? _buildPodiumPlace(
+                  context,
+                  rank: 1,
+                  name: podium[0].name,
+                  points: '${podium[0].point} Pts',
+                )
+              : Container(),
+          podium.length > 2
+              ? _buildPodiumPlace(
+                  context,
+                  rank: 3,
+                  name: podium[2].name,
+                  points: '${podium[2].point} Pts',
+                )
+              : Container(),
         ],
       ),
     );
@@ -94,7 +112,7 @@ class PodiumComponent extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
-              color: Colors.black87,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           Container(
@@ -125,9 +143,10 @@ class PodiumComponent extends StatelessWidget {
               ),
               child: Text(
                 rank.toString(),
-                style: Theme.of(
-                  context,
-                ).textTheme.displayLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
